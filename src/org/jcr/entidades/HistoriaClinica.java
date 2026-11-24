@@ -1,0 +1,71 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.jcr.entidades;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class HistoriaClinica {
+    private String numeroHistoria;
+    private Paciente paciente;
+    private LocalDateTime fechaCreacion;
+    private List<String> diagnosticos;
+    private List<String> tratamientos;
+    private List<String> alergias;
+
+    HistoriaClinica(Paciente paciente) {
+        Validaciones.noNulo(paciente, "El paciente es obligatorio para crear su historia");
+        this.paciente = paciente;
+        this.fechaCreacion = LocalDateTime.now();
+        this.numeroHistoria = generarNumeroHistoria();
+        this.diagnosticos = new ArrayList<>();
+        this.tratamientos = new ArrayList<>();
+        this.alergias = new ArrayList<>();
+    }
+
+    private String generarNumeroHistoria() {
+        return "HC-" + paciente.getDni() + "-" + fechaCreacion.getYear();
+    }
+
+    public String getNumeroHistoria() {
+        return numeroHistoria;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void agregarDiagnostico(String diagnostico) {
+        if (diagnostico != null && !diagnostico.trim().isEmpty()) {
+            this.diagnosticos.add(diagnostico);
+        }
+    }
+
+    public void agregarTratamiento(String tratamiento) {
+        if (tratamiento != null && !tratamiento.trim().isEmpty()) {
+            this.tratamientos.add(tratamiento);
+        }
+    }
+
+    public void agregarAlergia(String alergia) {
+        if (alergia != null && !alergia.trim().isEmpty()) {
+            this.alergias.add(alergia);
+        }
+    }
+
+    public List<String> getDiagnosticos() {
+        return Collections.unmodifiableList(diagnosticos);
+    }
+
+    public List<String> getTratamientos() {
+        return Collections.unmodifiableList(tratamientos);
+    }
+
+    public List<String> getAlergias() {
+        return Collections.unmodifiableList(alergias);
+    }
+}
